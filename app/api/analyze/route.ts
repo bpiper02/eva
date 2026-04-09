@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { analyzeText } from "@/lib/ai";
+import { enforceRiskConsistency } from "@/lib/enforceRiskConsistency";
+import { runHybridPipeline } from "@/lib/pipeline/hybrid";
 
 export async function POST(req: Request) {
   try {
@@ -13,7 +14,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = await analyzeText(text);
+    const raw = await runHybridPipeline(text);
+    const result = enforceRiskConsistency(raw, text);
 
     return NextResponse.json({ result });
   } catch (err) {
