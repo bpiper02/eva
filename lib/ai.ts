@@ -1,3 +1,5 @@
+import type { PipelineInfo } from "@/lib/pipeline/types";
+
 type RiskLevel = "low" | "medium" | "high";
 
 export type AnalyzeResult = {
@@ -6,6 +8,8 @@ export type AnalyzeResult = {
   risk_level: RiskLevel;
   flags: string[];
   explanation: string;
+  /** Optional hybrid pipeline metadata (rules, embeddings, LLM routing). */
+  pipeline?: PipelineInfo;
 };
 
 const fallbackResult = (reason: string): AnalyzeResult => ({

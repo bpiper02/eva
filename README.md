@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Eva (this app)
+
+Eva runs **Agent Output Risk Assessment** on pasted text via `POST /api/analyze`. The server uses a **hybrid pipeline**: split the input into claims → **rule-based** scoring (keywords, patterns, light contradiction checks) → **embedding** similarity vs small reference anchors (Gemini `text-embedding-004`) → call the **generative model only** when combined confidence is low. The JSON `result` includes optional **`pipeline`** metadata (claim breakdown, which layer drove the score, whether the LLM ran). Responses are still post-processed by **`enforceRiskConsistency`**. The homepage is an editorial-style evaluator, not a chat UI.
+
+- **History:** The last **10** assessments are stored in **`localStorage`** (`eva-analysis-history-v1`) with the input text, structured result, and timestamp. Click a row to reload that run.
+- **Compare:** With at least two saved runs, open **Compare with previous** to see the current (selected) assessment against the **next older** run in history: risk change, score deltas, and flags added or removed.
+
 ## Getting Started
 
 First, run the development server:
